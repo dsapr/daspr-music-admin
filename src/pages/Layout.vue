@@ -16,8 +16,8 @@
     <q-drawer show-if-above v-model="left" side="left" bordered>
       drawer content
     </q-drawer>
-
-    <q-page-container style="background: red">
+    <!-- 子页面组件 -->
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
