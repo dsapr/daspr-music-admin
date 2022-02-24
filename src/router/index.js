@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import Layout from '../pages/Layout.vue';
+
 const User = {
   template: '<div>this is user</div>'
 };
@@ -8,11 +9,19 @@ const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: 'index',
+    redirect: 'dashboard',
     children: [
       {
-        path: 'index',
-        component: () => import('../pages/index/Index.vue')
+        path: 'dashboard',
+        name: 'Dashboard',
+        mate: { title: '控制台', icon: 'dashboard' },
+        component: () => import('../pages/dashboard/Index.vue')
+      },
+      {
+        path: 'user',
+        name: 'User',
+        mate: { title: '用户管理', icon: 'manage_accounts' },
+        component: () => import('../pages/user/User.vue')
       }
     ]
   },

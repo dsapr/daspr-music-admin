@@ -1,5 +1,7 @@
-import { get } from "./request"
+import { get } from './request';
 
-export const sayHello = () => {{
-    return get('/users/')
-}}
+export const sayHello = () => {
+  {
+    return get('/users/');
+  }
+};
