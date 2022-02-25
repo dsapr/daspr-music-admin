@@ -2,10 +2,10 @@
   <div class="login-page">
     <q-card class="login-form-content">
       <div class="title">音乐后台</div>
-      <q-form class="q-gutter-md form">
+      <q-form class="q-gutter-md form" @click="onSubmit(username, password)">
         <q-input
           filled
-          v-model="name"
+          v-model="username"
           label="用户名："
           lazy-rules
           :rules="[val => (val && val.length > 0) || '请输入用户名']"
@@ -13,6 +13,7 @@
 
         <q-input
           filled
+          v-model="password"
           type="password"
           label="密码"
           lazy-rules
@@ -36,13 +37,26 @@
 
 <script>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   name: 'Login',
   setup() {
     const accept = ref(false);
+    const username = ref('');
+    const password = ref('');
+    const store = useStore();
+
+    const onSubmit = (username, password) => {
+      store.dispatch('user/login', {username, password}).then(res => {
+        console.log(res)
+      })
+    }
     return {
-      accept
+      accept,
+      username,
+      password,
+      onSubmit
     };
   }
 };
