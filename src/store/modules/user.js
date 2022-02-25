@@ -1,4 +1,4 @@
-import { setToken } from '../../utils/auth.js';
+import { setToken, removeToken } from '../../utils/auth.js';
 import { login } from '../../api/user.js';
 
 const state = () => ({
@@ -9,7 +9,7 @@ const state = () => ({
 });
 
 const getters = {
-  nickameFirstWord: state => {
+  nicknameFirstWord: state => {
     return state.nickname.slice(0, 1);
   }
 };
@@ -17,16 +17,23 @@ const getters = {
 const actions = {
   login({ commit }, { username, password }) {
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
-        .then(token => {
-          // commit('SET_TOKEN', token);
-          // setToken(token);
-          // resolve();
+      login(username.trim(), password)
+        .then(response => {
+          const authorization = response.headers['authorization'];
+          commit('SET_TOKEN', authorization);
+          setToken(authorization);
+          resolve();
         })
         .catch(error => {
           reject(error);
         });
     });
+  },
+  // user logout
+  logout({ commit }) {
+    commit('SET_TOKEN', '');
+    commit('SET_ROLES', []);
+    removeToken();
   }
 };
 

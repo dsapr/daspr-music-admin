@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { Quasar } from 'quasar';
 import router from './router';
 import store from './store';
+import './permission'; // permission control
 
 import '@quasar/extras/material-icons/material-icons.css';
 import 'quasar/src/css/index.sass';

@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      nickameFirstWord: computed(() => store.getters.user.nickameFirstWord),
+      nicknameFirstWord: computed(() => store.getters.user.nicknameFirstWord),
       left: true
     };
   }
