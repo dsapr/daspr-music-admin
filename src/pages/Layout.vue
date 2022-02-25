@@ -20,15 +20,16 @@
         <q-item
           clickable
           v-ripple
-          active-class="my-menu-link"
-          v-for="item in menus"
-          :key="item.title"
+          active-class="menu-active"
+          v-for="item in menuRoutes"
+          :key="item.mate.title"
+          :active="item.name === route.name"
         >
           <q-item-section avatar>
-            <q-icon :name="item.icon" />
+            <q-icon :name="item.mate.icon" />
           </q-item-section>
 
-          <q-item-section>{{ item.title }}</q-item-section>
+          <q-item-section>{{ item.mate.title }}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -40,21 +41,23 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { menuRoutes } from '../router/index.js';
 
 export default {
   name: 'Layout',
   setup() {
     const store = useStore();
 
-    const menus = [
-      { title: '控制台', icon: 'dashboard', path: 'index' },
-      { title: '用户管理', icon: 'manage_accounts' }
-    ];
+    const route = useRoute();
+
+    console.log(route.name);
+
     return {
-      menus
+      route,
+      menuRoutes
     };
   },
   data() {
@@ -66,4 +69,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.menu-active {
+  color: white;
+  background: #f2c037;
+}
+</style>

@@ -5,25 +5,26 @@ import Layout from '../pages/Layout.vue';
 const User = {
   template: '<div>this is user</div>'
 };
+export const menuRoutes = [
+  {
+    path: 'dashboard',
+    name: 'Dashboard',
+    mate: { title: '控制台', icon: 'dashboard' },
+    component: () => import('../pages/dashboard/Index.vue')
+  },
+  {
+    path: 'user',
+    name: 'User',
+    mate: { title: '用户管理', icon: 'manage_accounts' },
+    component: () => import('../pages/user/User.vue')
+  }
+];
 const routes = [
   {
     path: '/',
     component: Layout,
     redirect: 'dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        name: 'Dashboard',
-        mate: { title: '控制台', icon: 'dashboard' },
-        component: () => import('../pages/dashboard/Index.vue')
-      },
-      {
-        path: 'user',
-        name: 'User',
-        mate: { title: '用户管理', icon: 'manage_accounts' },
-        component: () => import('../pages/user/User.vue')
-      }
-    ]
+    children: menuRoutes
   },
   {
     path: '/login',
