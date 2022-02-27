@@ -24,6 +24,7 @@
           v-for="item in menuRoutes"
           :key="item.mate.title"
           :active="item.name === route.name"
+          :to="item.path"
         >
           <q-item-section avatar>
             <q-icon :name="item.mate.icon" />
@@ -52,8 +53,6 @@ export default {
     const store = useStore();
 
     const route = useRoute();
-
-    console.log(route.name);
 
     return {
       route,

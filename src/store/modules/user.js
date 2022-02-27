@@ -1,9 +1,9 @@
-import { setToken, removeToken } from '../../utils/auth.js';
+import { setToken, removeToken, getToken } from '../../utils/auth.js';
 import { login } from '../../api/user.js';
 
 const state = () => ({
+  token: getToken(),
   nickname: '辰怡',
-  token: '',
   username: '',
   roles: []
 });

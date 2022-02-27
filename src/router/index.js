@@ -16,7 +16,7 @@ export const menuRoutes = [
     path: 'user',
     name: 'User',
     mate: { title: '用户管理', icon: 'manage_accounts' },
-    component: () => import('../pages/user/User.vue')
+    component: () => import('../pages/user/Index.vue')
   }
 ];
 const routes = [

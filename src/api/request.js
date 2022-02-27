@@ -1,5 +1,7 @@
 import axios from 'axios';
 import store from '../store';
+import { Notify } from 'quasar';
+import { getToken } from '../utils/auth';
 
 const baseURL = import.meta.env.VITE_API_HOST;
 
@@ -11,7 +13,6 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     // do something before request is sent
-
     if (store.state.user.token) {
       config.headers['Authorization'] = store.state.user.token;
     }
@@ -20,6 +21,20 @@ instance.interceptors.request.use(
   error => {
     // do something with request error
     console.log(error); // for debug
+    return Promise.reject(error);
+  }
+);
+
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    Notify.create({
+      type: 'negative',
+      message: error.message,
+      position: 'top'
+    });
     return Promise.reject(error);
   }
 );
