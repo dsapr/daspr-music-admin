@@ -3,7 +3,8 @@ import {
   removeToken,
   getToken,
   setCurrentUser,
-  getCurrentUser
+  getCurrentUser,
+  removeCurrentUser
 } from '../../utils/auth.js';
 import { createToken } from '../../api/token.js';
 import { me } from '../../api/user.js';
@@ -15,7 +16,7 @@ const state = () => ({
 
 const getters = {
   nicknameFirstWord: state => {
-    return state.nickname.slice(0, 1);
+    return state.currentUser ? state.currentUser.nickname.slice(0, 1) : '';
   }
 };
 
@@ -36,6 +37,8 @@ const actions = {
   // user logout
   logout({ commit }) {
     commit('SET_TOKEN', '');
+    commit('SET_CURRENT_USER', '');
+    removeCurrentUser();
     removeToken();
   },
   fetchCurrentUser({ commit }) {
