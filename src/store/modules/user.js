@@ -1,11 +1,16 @@
-import { setToken, removeToken, getToken } from '../../utils/auth.js';
-import { login } from '../../api/user.js';
+import {
+  setToken,
+  removeToken,
+  getToken,
+  setCurrentUser,
+  getCurrentUser
+} from '../../utils/auth.js';
+import { createToken } from '../../api/token.js';
+import { me } from '../../api/user.js';
 
 const state = () => ({
   token: getToken(),
-  nickname: '辰怡',
-  username: '',
-  roles: []
+  currentUser: getCurrentUser()
 });
 
 const getters = {
@@ -17,11 +22,10 @@ const getters = {
 const actions = {
   login({ commit }, { username, password }) {
     return new Promise((resolve, reject) => {
-      login(username.trim(), password)
-        .then(response => {
-          const authorization = response.headers['authorization'];
-          commit('SET_TOKEN', authorization);
-          setToken(authorization);
+      createToken(username.trim(), password)
+        .then(token => {
+          commit('SET_TOKEN', token);
+          setToken(token);
           resolve();
         })
         .catch(error => {
@@ -32,8 +36,20 @@ const actions = {
   // user logout
   logout({ commit }) {
     commit('SET_TOKEN', '');
-    commit('SET_ROLES', []);
     removeToken();
+  },
+  fetchCurrentUser({ commit }) {
+    return new Promise((resolve, reject) => {
+      me()
+        .then(currentUser => {
+          commit('SET_CURRENT_USER', currentUser);
+          setCurrentUser(currentUser);
+          resolve(currentUser);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 };
 
@@ -41,11 +57,8 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token;
   },
-  SET_NICKNAME: (state, nickname) => {
-    state.nickname = nickname;
-  },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles;
+  SET_CURRENT_USER: (state, currentUser) => {
+    state.currentUser = currentUser;
   }
 };
 

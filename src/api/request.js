@@ -4,6 +4,7 @@ import { Notify } from 'quasar';
 import { getToken } from '../utils/auth';
 
 const baseURL = import.meta.env.VITE_API_HOST;
+const tokenPrefix = 'Bearer ';
 
 export const instance = axios.create({
   baseURL
@@ -14,7 +15,7 @@ instance.interceptors.request.use(
   config => {
     // do something before request is sent
     if (store.state.user.token) {
-      config.headers['Authorization'] = store.state.user.token;
+      config.headers['Authorization'] = tokenPrefix + store.state.user.token;
     }
     return config;
   },
@@ -27,9 +28,10 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   response => {
-    return response;
+    return response.data;
   },
   error => {
+    store.dispatch('user/logout');
     Notify.create({
       type: 'negative',
       message: error.message,
