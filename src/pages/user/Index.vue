@@ -19,7 +19,7 @@
         size="sm"
       />
     </div>
-    <create-dialog v-if="show" @hide="hideDialog" />
+    <create-dialog v-if="show" @hide="hideDialog" @create-success="fetchData" />
   </div>
 </template>
 

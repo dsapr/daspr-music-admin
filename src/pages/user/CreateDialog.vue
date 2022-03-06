@@ -60,6 +60,7 @@ const createUser = () => {
       position: 'top'
     });
   });
+  defineEmits(['create-success']);
 };
 </script>
 
