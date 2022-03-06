@@ -11,7 +11,16 @@
           Dsapr 音乐
         </q-toolbar-title>
         <q-space />
-        <q-avatar color="primary" text-color="white"></q-avatar>
+        <q-avatar color="teal" text-color="white">
+          {{ nicknameFirstWord }}
+          <q-menu fit>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup @click="logout">
+                <q-item-section>退出</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-avatar>
       </q-toolbar>
     </q-header>
 
@@ -55,13 +64,17 @@ export default {
     const route = useRoute();
 
     return {
+      nicknameFirstWord: computed(
+        () => store.getters['user/nicknameFirstWord']
+      ),
+      menuRoutes,
       route,
-      menuRoutes
+      logout: () =>
+        store.dispatch('user/logout').then(() => window.location.reload())
     };
   },
   data() {
     return {
-      nicknameFirstWord: computed(() => store.getters.user.nicknameFirstWord),
       left: true
     };
   }

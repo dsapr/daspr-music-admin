@@ -31,15 +31,21 @@ instance.interceptors.response.use(
     return response.data;
   },
   error => {
-    store.dispatch('user/logout');
-    Notify.create({
-      type: 'negative',
-      message: error.message,
-      position: 'top'
-    });
+    handleErrorResponse(error.response);
     return Promise.reject(error);
   }
 );
+
+const handleErrorResponse = response => {
+  if (response.status === 401 || response.status === 403) {
+    store.dispatch('user/logout').then(() => window.location.reload());
+  }
+  Notify.create({
+    type: 'negative',
+    message: response.data.message,
+    position: 'top'
+  });
+};
 
 const { get, post, put } = instance;
 
