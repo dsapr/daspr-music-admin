@@ -7,6 +7,7 @@
       :rows="data"
       :columns="columns"
       row-key="name"
+      @request="fetchData"
       v-model:pagination="pagination"
       hide-pagination
     />

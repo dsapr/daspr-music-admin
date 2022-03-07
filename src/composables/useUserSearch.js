@@ -6,16 +6,17 @@ export const useUserSearch = () => {
 
   const pagination = ref({
     page: 1,
-    rowsPerPage: 10,
-    rowsNumber: 10,
-    totalPages: 0
+    rowsPerPage: 10
   });
 
   const fetchData = () => {
-    search({ page: 0 }).then(res => {
-      data.value = data.value.concat(res.content);
+    const pageable = {
+      page: pagination.value.page - 1,
+      size: pagination.value.rowsPerPage
+    };
+    search(pageable).then(res => {
+      data.value = res.content;
       pagination.value.page = res.number + 1;
-      pagination.value.rowsPerPage = res.size;
       pagination.value.rowsNumber = res.totalElements;
       pagination.value.totalPages = res.totalPages;
     });

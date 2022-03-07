@@ -51,6 +51,8 @@ const show = ref(true);
 const username = ref('');
 const password = ref('');
 
+const emmit = defineEmits(['create-success']);
+
 const createUser = () => {
   create({ username: username.value, password: password.value }).then(res => {
     show.value = false;
@@ -59,8 +61,8 @@ const createUser = () => {
       message: '用户创建成功！',
       position: 'top'
     });
+    emmit('create-success');
   });
-  defineEmits(['create-success']);
 };
 </script>
 
