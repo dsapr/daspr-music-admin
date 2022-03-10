@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store';
 import { Notify } from 'quasar';
-import { getToken } from '../utils/auth';
 
 const baseURL = import.meta.env.VITE_API_HOST;
 const tokenPrefix = 'Bearer ';
