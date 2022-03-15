@@ -8,8 +8,8 @@
       <q-card-section class="q-pt-none">
         <q-input
           dense
-          v-model="username"
-          label="用户名"
+          v-model="music.name"
+          label="音乐名"
           autofocus
           @keyup.enter="show = false"
         />
@@ -18,21 +18,15 @@
       <q-card-section class="q-pt-none">
         <q-input
           dense
-          v-model="password"
-          label="密码"
-          type="password"
+          v-model="music.description"
+          label="简介"
           autofocus
           @keyup.enter="show = false"
         />
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn
-          flat
-          label="确认"
-          color="primary"
-          @click="createUser(username, password)"
-        />
+        <q-btn flat label="确认" color="primary" @click="createMusic()" />
         <q-btn flat label="取消" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -40,25 +34,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { create } from '../../api/user.js';
+import { reactive, ref } from 'vue';
+import { create } from '../../api/music.js';
 import { Notify } from 'quasar';
-
-name: 'CreateDialog';
 
 const show = ref(true);
 
-const username = ref('');
-const password = ref('');
+const music = reactive({ name: '', description: '' });
 
 const emmit = defineEmits(['create-success']);
 
-const createUser = () => {
-  create({ username: username.value, password: password.value }).then(res => {
+const createMusic = () => {
+  create(music).then(res => {
     show.value = false;
     Notify.create({
       type: 'positive',
-      message: '用户创建成功！',
+      message: '音乐创建成功！',
       position: 'top'
     });
     emmit('create-success');
